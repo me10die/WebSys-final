@@ -22,6 +22,9 @@ const getMovies = async () => {
                     <div ondblclick=movieDetails(${data.id})>
                         <img src=http://image.tmdb.org/t/p/w500/${data.poster_path}>
                         <h1>${data.title}</h1>
+                        <label>
+                            <input style="height: 10px;" type="checkbox"> Add To Favorites
+                        </label>
                     </div>
                     `
                 )).join("")}
@@ -79,6 +82,5 @@ const movieDetails = async (id)=>{
         </div>
     `
 }
-
 
 getMovies()

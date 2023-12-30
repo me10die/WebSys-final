@@ -46,11 +46,27 @@ const movieDetails = async (id)=>{
         `https://api.themoviedb.org/3/movie/${id}?api_key=1bfdbff05c2698dc917dd28c08d41096&language=en -US`
     );
     const mymovies = await response.json()
+
+    const similarResponse = await fetch(
+        `https://api.themoviedb.org/3/movie/${id}/similar?api_key=1bfdbff05c2698dc917dd28c08d41096&language=en-US&page=1`
+    );
+    const similarMovies = await similarResponse.json()
+
     container.innerHTML = `
         <div>
             <img src=http://image.tmdb.org/t/p/w500/${mymovies.poster_path}>
             <h1>${mymovies.original_title}</h1>
             <p>${mymovies.overview}</p>
+
+            ${similarMovies.results.map((data)=> (
+                `
+                <div ondblclick=movieDetails(${data.id})>
+                    <img src=http://image.tmdb.org/t/p/w500/${data.poster_path}>
+                    <h1>${data.title}</h1>
+                </div>
+                `
+            )).join("")}
+
         </div>
     `
 }

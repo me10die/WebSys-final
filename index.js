@@ -80,4 +80,5 @@ const movieDetails = async (id)=>{
     `
 }
 
+
 getMovies()

@@ -15,14 +15,17 @@ const getMovies = async () => {
         'https://api.themoviedb.org/3/movie/upcoming?api_key=1bfdbff05c2698dc917dd28c08d41096&language=en-US&page=1'
     );
     const mymovies = await response.json()
-    container.innerHTML = mymovies.results.map((data)=>(
-        `
-        <div ondblclick=movieDetails(${data.id})>
-            <img src=http://image.tmdb.org/t/p/w500/${data.poster_path}>
-            <h1>${data.title}</h1>
-        </div>
-        `
-    )).join("")
+   container.innerHTML = `
+            <div class=movies>
+                ${mymovies.results.map((data)=>(
+                    `
+                    <div ondblclick=movieDetails(${data.id})>
+                        <img src=http://image.tmdb.org/t/p/w500/${data.poster_path}>
+                        <h1>${data.title}</h1>
+                    </div>
+                    `
+                )).join("")}
+            </div>`
 };
 
 
@@ -32,12 +35,16 @@ const searchMovies = async (title) => {
     );
     const mymovies = await response.json()
     container.innerHTML = mymovies.results.map((data)=>(
-        `
-        <div>
-            <img src=http://image.tmdb.org/t/p/w500/${data.poster_path}>
-            <h1>${data.title}</h1>
-        </div>
-        `
+       ` <div class=movies>
+        ${mymovies.results.map((data)=>(
+            `
+            <div ondblclick=movieDetails(${data.id})>
+                <img src=http://image.tmdb.org/t/p/w500/${data.poster_path}>
+                <h1>${data.title}</h1>
+            </div>
+            `
+        )).join("")}
+    </div>`
     )).join("")
 };
 
@@ -53,19 +60,21 @@ const movieDetails = async (id)=>{
     const similarMovies = await similarResponse.json()
 
     container.innerHTML = `
-        <div>
-            <img src=http://image.tmdb.org/t/p/w500/${mymovies.poster_path}>
+        <div class="details">
+            <img class="imgdetails" src=http://image.tmdb.org/t/p/w500/${mymovies.poster_path}>
             <h1>${mymovies.original_title}</h1>
             <p>${mymovies.overview}</p>
 
-            ${similarMovies.results.map((data)=> (
-                `
-                <div ondblclick=movieDetails(${data.id})>
-                    <img src=http://image.tmdb.org/t/p/w500/${data.poster_path}>
-                    <h1>${data.title}</h1>
-                </div>
-                `
-            )).join("")}
+            <div class=movies>
+                ${similarMovies.results.map((data)=>(
+                    `
+                    <div ondblclick=movieDetails(${data.id})>
+                        <img src=http://image.tmdb.org/t/p/w500/${data.poster_path}>
+                        <h1>${data.title}</h1>
+                    </div>
+                    `
+                )).join("")}
+            </div>
 
         </div>
     `

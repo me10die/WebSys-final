@@ -17,7 +17,7 @@ const getMovies = async () => {
     const mymovies = await response.json()
     container.innerHTML = mymovies.results.map((data)=>(
         `
-        <div>
+        <div ondblclick=movieDetails(${data.id})>
             <img src=http://image.tmdb.org/t/p/w500/${data.poster_path}>
             <h1>${data.title}</h1>
         </div>
@@ -40,5 +40,19 @@ const searchMovies = async (title) => {
         `
     )).join("")
 };
+
+const movieDetails = async (id)=>{
+    const response = await fetch(
+        `https://api.themoviedb.org/3/movie/${id}?api_key=1bfdbff05c2698dc917dd28c08d41096&language=en -US`
+    );
+    const mymovies = await response.json()
+    container.innerHTML = `
+        <div>
+            <img src=http://image.tmdb.org/t/p/w500/${mymovies.poster_path}>
+            <h1>${mymovies.original_title}</h1>
+            <p>${mymovies.overview}</p>
+        </div>
+    `
+}
 
 getMovies()
